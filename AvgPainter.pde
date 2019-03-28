@@ -235,13 +235,7 @@ void draw() {
         Canvas.beginDraw();
 
         paint_count++;
-        /*
-        if (pushedUndo==false) {
-         saveCount++;
-         //save(saveCount+".png");
-         //Canvas.save("aaa.png");
-         }
-         */
+        
         Canvas.translate(0, -MenuAreaSize);
         Canvas.endDraw();
         cur_stroke = new Stroke( g_mouseStroke, strokeC, strokeW );
@@ -446,7 +440,6 @@ void mouseReleased() {
 
   if (ave_selected) {
     saveCount-=1;
-    save(saveCount+".png");
     ave_selected=false;
   }
 

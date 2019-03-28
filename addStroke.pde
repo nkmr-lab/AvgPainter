@@ -143,7 +143,7 @@ void canvasRedraw() {
 
 void canvasTmpSave() {
   if (pushedUndo==false) {
-    Canvas.save("tmp"+count+".png");
+    Canvas.save("tmp/tmp"+count+".png");
     println("count is "+count);
   }
   //pushedUndo=false;
