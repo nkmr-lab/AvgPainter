@@ -32,6 +32,7 @@ PImage stw_icon;
 
 ADRadio radioButton;
 StrokeWeightPanel strWPanel;
+ColorPanel colPanel;
 
 // チェックボタンの設定
 String[] checkButtonText = {
@@ -155,6 +156,7 @@ void setup() {
   checkButton.setValue(1);
 
   strWPanel = new StrokeWeightPanel(5+60*4+25, 50, 50, 1, 8);
+  colPanel = new ColorPanel();
 
   new_icon = loadImage("src/icon/create2.png");
   lod_icon = loadImage("src/icon/load2.png");
@@ -184,6 +186,8 @@ void draw() {
   rect( 0, MenuAreaSize, CanvasSizeX, CanvasSizeY + MenuAreaSize );
 
   showGUI();
+  
+  colPanel.display();
 
   if ( mousePressed && MenuPressed ) {
     // メニューエリアをクリックしてる時だけフレームごとにshowButtonsする
@@ -300,44 +304,6 @@ void showButtons() {
   stroke(#A5A5A5);
   rect(5+60*4, 25, 50, 50, 10);
   rect(5+60*5, 25, 60, 50, 10);
-
-  // 色選択部分
-  colorMode(HSB, 12, 100, 100);
-  for (int x=0; x<4; x++) {
-    for (int y=0; y<3; y++) {
-
-      fill(x+y*4, 100, 100);
-
-      if (x==2 && y ==2) {
-        fill(0, 0, 100);
-      }
-      if (x==3 && y ==2) {
-        fill(0);
-      }
-
-      if (mouseX>=10+60*5+13*x && mouseX<=10+60*5+10+13*x && mouseY>=30+15*y && mouseY<=40+15*y) {
-        //色を指定した場合
-        if (mousePressed) {
-          selectColor = (x+1)+y*4;
-          strWPanel.setColor(color(x+y*4, 100, 100));
-          strokeC = color(x+y*4, 100, 100);
-          strokeType ="pen";
-
-          // 白と黒のカラーパレット用意してあげる
-          if (x==2 && y==2) {
-            selectColor = 10;
-            strWPanel.setColor(color(0, 0, 100));
-            strokeC = color(0, 0, 100);
-          } else if (x==3 && y==2) {
-            selectColor = 11;
-            strWPanel.setColor(color(0, 0, 0));
-            strokeC = color(0, 0, 0);
-          }
-        }
-      }
-      rect(10+60*5+13*x, 30+15*y, 10, 10);
-    }
-  }
 
   colorMode(RGB, 255, 255, 255);
 
@@ -493,6 +459,9 @@ void mouseReleased() {
 
 void mousePressed() {
   avg_strokePressed = false;
+  colPanel.listenSelect();
+  
+  strokeC = colPanel.getNowColor();
 
   println("mouseX:"+mouseX+", mouseY:"+mouseY);
   if (avg_stroke !=null ) {

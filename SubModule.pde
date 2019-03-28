@@ -20,21 +20,3 @@ PointF [] DoubleBack( PointF [] _points ) {
   }
   return _retPoints;
 }
-
-
-
-void setFill(int _x, int _y, color _c) {
-
-  color c = get(_x, _y);
-  if (c != color(0) ) {
-    fill(100, 0, 0);
-    point(_x, _y);
-
-    if (c == _c) {
-      setFill( _x-1, _y, _c);
-      setFill( _x+1, _y, _c);
-      setFill( _x, _y-1, _c);
-      setFill( _x, _y+1, _c);
-    }
-  }
-}
