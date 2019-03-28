@@ -2,8 +2,6 @@
 // AvgPainter: 平均化によって手書きを綺麗にするドローイングツール
 // implemented By 新納真次郎
 
-// あ
-
 // キャンバスの設定
 PGraphics Canvas;
 public int CanvasSizeX;
