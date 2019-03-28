@@ -6,14 +6,8 @@ class Stroke {
   Fourier m_Fourier;
   boolean m_bFourier;
   int m_iAppropriateDegreeOfFourier;
-  color col;
-  int weight;
-  String type;
-  int colorFirstNum=11;
-  boolean isAverageStroke=false;
-  int doSplineCount;
-
-  int avgListNum;
+  color m_Color;
+  int m_Weight;
 
   Stroke( PointF [] _orgPt, color _col, int _weight, String _type)
   {
@@ -21,10 +15,8 @@ class Stroke {
     m_SplinePt = _orgPt;
     m_Fourier = new Fourier( );
     m_bFourier = false;
-    col = _col;
-    weight = _weight;
-    type = _type;
-    isAverageStroke=false;
+    m_Color = _col;
+    m_Weight = _weight;
   }
 
   Stroke(Stroke _st) {
@@ -33,11 +25,8 @@ class Stroke {
     m_Fourier = new Fourier(_st.m_Fourier);
     m_FourierSeriesPt = _st.m_FourierSeriesPt;
     m_bFourier = _st.m_bFourier;
-    col = _st.col;
-    weight = _st.weight;
-    type = _st.type;
-    colorFirstNum = _st.colorFirstNum;
-    isAverageStroke=_st.isAverageStroke;
+    m_Color = _st.m_Color;
+    m_Weight = _st.m_Weight;
   }
 
   Stroke( PointF [] _orgPt, color _col, int _weight) {
@@ -45,10 +34,8 @@ class Stroke {
     m_SplinePt = _orgPt;
     m_Fourier = new Fourier( );
     m_bFourier = false;
-    col = _col;
-    weight = _weight;
-    type = "pen";
-    isAverageStroke=false;
+    m_Color = _col;
+    m_Weight = _weight;
   }
 
   Stroke( Stroke _st, color _col, int _weight) {
@@ -57,11 +44,8 @@ class Stroke {
     m_Fourier = new Fourier(_st.m_Fourier);
     m_FourierSeriesPt = _st.m_FourierSeriesPt;
     m_bFourier = _st.m_bFourier;
-    col = _col;
-    weight = _weight;
-    type = _st.type;
-    colorFirstNum = _st.colorFirstNum;
-    isAverageStroke=true;
+    m_Color = _col;
+    m_Weight = _weight;
   }
 
   Stroke( int _iSize ) {
@@ -84,11 +68,11 @@ class Stroke {
   }
 
   void setColor(color _col) {
-    col = _col;
+    m_Color = _col;
   }
 
   void setWeight(int _weight) {
-    weight = _weight;
+    m_Weight = _weight;
   }
   void doReverse() {
     PointF [] tempPt = new PointF [m_orgPt.length];
@@ -102,7 +86,7 @@ class Stroke {
 
   void doSpline( int _iMultiple )
   {
-    doSplineCount++;
+   
     // 0 ～ PI で t を作成する
     float [] _arrayT = new float [m_orgPt.length];
     for ( int j=0; j<m_orgPt.length; j++ ) {
@@ -196,8 +180,8 @@ class Stroke {
 
     pushStyle();
     smooth( );
-    stroke( col );
-    strokeWeight( weight );
+    stroke( m_Color );
+    strokeWeight( m_Weight );
     for (int num = 0; num <= m_FourierSeriesPt.length/2; num++) {
       line( int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y), int(m_FourierSeriesPt[num+1].x), int(m_FourierSeriesPt[num+1].y) );
     }
@@ -207,7 +191,7 @@ class Stroke {
   boolean isInside(int _x, int _y) {
     boolean judge = false;
     for (int num = 0; num < m_FourierSeriesPt.length; num++) {
-      if (dist(_x, _y, int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y))<=strokeW+5) {
+      if (dist(_x, _y, int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y))<=m_Weight+5) {
         judge |= true;
       }
     }

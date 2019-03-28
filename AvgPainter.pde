@@ -25,12 +25,13 @@ int g_iMultiple = 10;
 float g_fDistance = 0.5; // a0使わないとき
 // =======================================
 
+// UI関連
 int g_canvasWidth = 500;
 int g_canvasHeight = 500;
 int g_sideMenuWidth = 300;
 
+
 boolean g_bStroking = false;
-int strokeW = 10;
 PointF [] g_mouseStroke;
 CharStroke g_curCharStroke;
 Stroke g_avgStroke;
@@ -38,7 +39,6 @@ int g_sameStIndex = -1;
 
 int g_stWeight;
 int g_stColorR, g_stColorG, g_stColorB;
-
 
 
 void settings() {
@@ -106,7 +106,7 @@ void setup() {
 void draw() {
   updateCursor();
   showMenu();
-
+  
   if ( g_bStroking ) {
     pushStyle();
     strokeWeight( g_stWeight );
@@ -137,13 +137,13 @@ void mouseReleased() {
     g_bStroking = false;
 
     if ( g_mouseStroke.length > 3 ) {
-      Stroke addSt = new Stroke( g_mouseStroke, color(0), 10 );
+      Stroke addSt = new Stroke( g_mouseStroke, color(g_stColorR, g_stColorG, g_stColorB), g_stWeight );
       addSt.doFourier();
 
       int index = g_curCharStroke.isSameStroke(addSt);
       if ( index != -1 ) {
         Stroke st = g_curCharStroke.get(index);
-        st.setWeight( 10 );
+        st.setWeight( g_stWeight );
         st.setColor(color(255, 0, 0));
         st.doAverageByStroke( addSt );
         st.displayStrokeByFourier(g_iMultiple);
@@ -160,11 +160,15 @@ void mouseReleased() {
 
 void eventListener() {
   // 平均ストロークがタップされたら
+  if( mouseX < g_sideMenuWidth ){
+    return;
+  }
+  
   if ( g_avgStroke != null && g_avgStroke.isInside( mouseX, mouseY )) {
     println("くりっくされたよ");
     g_curCharStroke.removeLast();
     g_curCharStroke.remove(g_sameStIndex);
-    g_avgStroke.setColor( color(0) );
+    g_avgStroke.setColor( color(g_stColorR, g_stColorG, g_stColorB) );
     g_curCharStroke.add( g_avgStroke );
     background( 255 );
     g_curCharStroke.displayStroke();
