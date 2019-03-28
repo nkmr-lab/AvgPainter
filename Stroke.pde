@@ -12,7 +12,7 @@ class Stroke {
   int colorFirstNum=11;
   boolean isAverageStroke=false;
   int doSplineCount;
-  
+
   int avgListNum;
 
   Stroke( PointF [] _orgPt, color _col, int _weight, String _type)
@@ -50,7 +50,7 @@ class Stroke {
     type = "pen";
     isAverageStroke=false;
   }
-  
+
   Stroke( Stroke _st, color _col, int _weight) {
     m_orgPt = _st.m_orgPt;
     m_SplinePt = _st.m_SplinePt;
@@ -87,10 +87,9 @@ class Stroke {
     col = _col;
   }
 
-  void setType(String _type) {
-    type = _type;
+  void setWeight(int _weight) {
+    weight = _weight;
   }
-
   void doReverse() {
     PointF [] tempPt = new PointF [m_orgPt.length];
     for ( int i=0; i<m_orgPt.length; i++ ) {
@@ -135,20 +134,20 @@ class Stroke {
     m_bFourier = true;
   }
 
-  void display( int _iShowMode, float _fZoom ) {
-    strokeWeight(2);
+  //void display( int _iShowMode, float _fZoom ) {
+  //  strokeWeight(2);
 
-    //次数の導出とか
-    int iDegree = m_Fourier.GetAppropriateDegree( g_iMaxDegreeOfFourier, m_SplinePt.length, g_fThresholdOfCoefficient );
-    m_FourierSeriesPt = m_Fourier.GetFourierSeries( iDegree, m_SplinePt.length, g_fThresholdOfCoefficient );
-    stroke( 0, 0, 255 );
-    Canvas.beginDraw();
-    for ( int i=0; i<m_FourierSeriesPt.length-1; i++ ) {
-      Canvas.line( m_FourierSeriesPt[i].x*_fZoom, m_FourierSeriesPt[i].y*_fZoom, m_FourierSeriesPt[i+1].x*_fZoom, m_FourierSeriesPt[i+1].y*_fZoom );
-    }
-    Canvas.endDraw();
-    //m_Fourier.ShowEquations(10,g_fThresholdOfCoefficient);
-  }
+  //  //次数の導出とか
+  //  int iDegree = m_Fourier.GetAppropriateDegree( g_iMaxDegreeOfFourier, m_SplinePt.length, g_fThresholdOfCoefficient );
+  //  m_FourierSeriesPt = m_Fourier.GetFourierSeries( iDegree, m_SplinePt.length, g_fThresholdOfCoefficient );
+  //  stroke( 0, 0, 255 );
+  //  Canvas.beginDraw();
+  //  for ( int i=0; i<m_FourierSeriesPt.length-1; i++ ) {
+  //    Canvas.line( m_FourierSeriesPt[i].x*_fZoom, m_FourierSeriesPt[i].y*_fZoom, m_FourierSeriesPt[i+1].x*_fZoom, m_FourierSeriesPt[i+1].y*_fZoom );
+  //  }
+  //  Canvas.endDraw();
+  //  //m_Fourier.ShowEquations(10,g_fThresholdOfCoefficient);
+  //}
 
   void doAverageByStroke( Stroke _addStroke ) {
 
@@ -164,81 +163,49 @@ class Stroke {
     m_FourierSeriesPt = m_Fourier.GetFourierSeries( m_iAppropriateDegreeOfFourier, m_SplinePt.length/2, g_fThresholdOfCoefficient );
   }
 
-  void displayStroke() {
-    
-    if(isAverageStroke){
-      m_orgPt = m_FourierSeriesPt;
-    }
-    
-    strokeWeight(2);
-    stroke( 255, 0, 0 );
-    Canvas.beginDraw();
-    Canvas.smooth();
-    Canvas.strokeWeight(weight);
-    Canvas.stroke(col);
-    for ( int i=0; i<m_orgPt.length-1; i++ ) {
-      //   Canvas.stroke( 0, 0, 200 );
-      //  Canvas.strokeWeight(2);
-      Canvas.line( m_orgPt[i].x, m_orgPt[i].y, m_orgPt[i+1].x, m_orgPt[i+1].y );
-    }
-    Canvas.endDraw();
-    
-    if(isAverageStroke){
-      m_orgPt = m_SplinePt;
-    }
-    
-  }
+  //void displayStroke() {
 
-  void displayStrokeByFourier( int _iMultiple ) {
+  //  if(isAverageStroke){
+  //    m_orgPt = m_FourierSeriesPt;
+  //  }
+
+  //  strokeWeight(2);
+  //  stroke( 255, 0, 0 );
+  //  Canvas.beginDraw();
+  //  Canvas.smooth();
+  //  Canvas.strokeWeight(weight);
+  //  Canvas.stroke(col);
+  //  for ( int i=0; i<m_orgPt.length-1; i++ ) {
+  //    //   Canvas.stroke( 0, 0, 200 );
+  //    //  Canvas.strokeWeight(2);
+  //    Canvas.line( m_orgPt[i].x, m_orgPt[i].y, m_orgPt[i+1].x, m_orgPt[i+1].y );
+  //  }
+  //  Canvas.endDraw();
+
+  //  if(isAverageStroke){
+  //    m_orgPt = m_SplinePt;
+  //  }
+
+  //}
+
+  void displayStrokeByFourier(int _iMultiple) {
     if ( m_bFourier == false ) {
-      //doSpline( _iMultiple );
-      //doFourier();
+      doSpline( _iMultiple );
+      doFourier();
     }
 
-    smooth();
-    stroke( 0, 0, 200 );
-    strokeWeight(2);
-    float lx = 0;
-    float ly = 0;
-
-    Canvas.beginDraw();
-    Canvas.smooth();
-    //   Canvas.stroke( 0, 0, 200 );
-    //   Canvas.strokeWeight(2);
-    Canvas.strokeWeight(weight);
-    Canvas.stroke(col);
-    for (int num = 0; num < m_FourierSeriesPt.length/2; num++) {
-      Canvas.line( int(m_FourierSeriesPt[num].x+0.5), int(m_FourierSeriesPt[num].y+0.5), int(m_FourierSeriesPt[num+1].x+0.5), int(m_FourierSeriesPt[num+1].y+0.5) );
+    smooth( );
+    stroke( col );
+    strokeWeight( weight );
+    for (int num = 0; num <= m_FourierSeriesPt.length/2; num++) {
+      line( int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y), int(m_FourierSeriesPt[num+1].x), int(m_FourierSeriesPt[num+1].y) );
     }
-    Canvas.endDraw();
-  }
-  
-  void displayAverage() {
-    m_iAppropriateDegreeOfFourier = m_Fourier.GetAppropriateDegree( g_iMaxDegreeOfFourier, m_SplinePt.length, g_fThresholdOfCoefficient );
-    println( "appropriate degree", m_iAppropriateDegreeOfFourier );
-    m_FourierSeriesPt = m_Fourier.GetFourierSeries( m_iAppropriateDegreeOfFourier, m_SplinePt.length/2, g_fThresholdOfCoefficient );
-
-    smooth();
-    stroke( 0, 0, 200 );
-    strokeWeight(2);
-    float lx = 0;
-    float ly = 0;
-    Canvas.beginDraw();
-    Canvas.smooth();
-    // Canvas.stroke( 0, 0, 200 );
-    // Canvas.strokeWeight(2);
-    for (int num = 0; num < m_FourierSeriesPt.length/2; num++) {
-      Canvas.line( int(m_FourierSeriesPt[num].x+0.5), int(m_FourierSeriesPt[num].y+0.5), int(m_FourierSeriesPt[num+1].x+0.5), int(m_FourierSeriesPt[num+1].y+0.5) );
-    }
-    Canvas.endDraw();
-    
-    //m_Fourier.ShowEquations(10,g_fThresholdOfCoefficient);
   }
 
   boolean isInside(int _x, int _y) {
     boolean judge = false;
-    for (int num = 0; num < m_FourierSeriesPt.length/2; num++) {
-      if (dist(_x, _y, m_FourierSeriesPt[num].x, m_FourierSeriesPt[num].y)<=strokeW+15) {
+    for (int num = 0; num < m_FourierSeriesPt.length; num++) {
+      if (dist(_x, _y, int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y))<=strokeW+5) {
         judge |= true;
       }
     }

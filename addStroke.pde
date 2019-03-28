@@ -78,74 +78,58 @@ boolean isDrawingSameStroke( Stroke _st1, Stroke _st2 ) {
   return true;
 }
 
-// ストロークを追加する
-void addStroke(Stroke _st1, int _iMultiple){
-  _st1.doSpline( _iMultiple );
-  _st1.doFourier();
+//// ストロークを追加する
+//void addStroke(Stroke _st1, int _iMultiple){
+//  _st1.doSpline( _iMultiple );
+//  _st1.doFourier();
   
-  // pre_strokeを書き換える
-  //pre_stroke[count%pre_stroke_max] = new Stroke(_st1);
-  pre_stroke_list.add(new Stroke(_st1));
-  println("stroke drawed. now count is "+count);
-}
+//  // pre_strokeを書き換える
+//  //pre_stroke[count%pre_stroke_max] = new Stroke(_st1);
+//  pre_stroke_list.add(new Stroke(_st1));
+//  println("stroke drawed. now count is "+count);
+//}
 
-// ここで平均化の対象かどうかの判定とか行う
-void judgeStroke(Stroke _st1,Stroke _st2, int _iMultiple,boolean _checkBtnVal) {
-  if (_st2 != null &&_checkBtnVal) {
+//// ここで平均化の対象かどうかの判定とか行う
+//void judgeStroke(Stroke _st1,Stroke _st2, int _iMultiple,boolean _checkBtnVal) {
+//  if (_st2 != null &&_checkBtnVal) {
 
-    if ( isDrawingSameStroke( _st1, _st2 ) == true ) {
+//    if ( isDrawingSameStroke( _st1, _st2 ) == true ) {
       
-      avg_stroke = new Stroke(_st2);//new Stroke(_st);
-      avg_stroke.doAverageByStroke( _st1 );
+//      avg_stroke = new Stroke(_st2);//new Stroke(_st);
+//      avg_stroke.doAverageByStroke( _st1 );
       
-      if ( !isDrawingSameStroke( avg_stroke, _st2 ) ) {
-        avg_stroke_list = new ArrayList();
-        //avg_stroke = null;
-        println("Reverse");
+//      if ( !isDrawingSameStroke( avg_stroke, _st2 ) ) {
+//        avg_stroke_list = new ArrayList();
+//        //avg_stroke = null;
+//        println("Reverse");
         
-      } else {
-        println(avg_stroke.colorFirstNum+":"+_st2.colorFirstNum);
-        averageStroke++;
+//      } else {
+//        println(avg_stroke.colorFirstNum+":"+_st2.colorFirstNum);
         
-        if(avg_stroke.colorFirstNum==1||_st1.colorFirstNum==1){
-          avg_stroke.setColor(color(0, 0, 255));
-        }else{
-          avg_stroke.setColor(color(255, 0, 0)); 
-        }
+//        if(avg_stroke.colorFirstNum==1||_st1.colorFirstNum==1){
+//          avg_stroke.setColor(color(0, 0, 255));
+//        }else{
+//          avg_stroke.setColor(color(255, 0, 0)); 
+//        }
         
-        /*
-        // デバッグ用 平均化されるストローク2本を表示します
-        averageSaveFile(averageStroke,_st1,_st2);
-        */
-        
-        avg_stroke.displayStrokeByFourier( _iMultiple ); // 赤い線で平均ストロークを描画
-        avg_stroke_list.add(new Stroke(avg_stroke,strokeC,strokeW));
-        ((Stroke)avg_stroke_list.get(avg_stroke_list.size()-1)).colorFirstNum=_st1.colorFirstNum;
-        ((Stroke)avg_stroke_list.get(avg_stroke_list.size()-1)).avgListNum=listNum;
-        println("averaeListNumber is "+((Stroke)avg_stroke_list.get(avg_stroke_list.size()-1)).avgListNum);
-        //avg_stroke=null; // これをすると失敗する
-      }
-    }
-  }
+//        avg_stroke.displayStrokeByFourier( _iMultiple ); // 赤い線で平均ストロークを描画
+//        avg_stroke_list.add(new Stroke(avg_stroke,strokeC,strokeW));
+//        ((Stroke)avg_stroke_list.get(avg_stroke_list.size()-1)).colorFirstNum=_st1.colorFirstNum;
+//        ((Stroke)avg_stroke_list.get(avg_stroke_list.size()-1)).avgListNum=listNum;
+//        println("averaeListNumber is "+((Stroke)avg_stroke_list.get(avg_stroke_list.size()-1)).avgListNum);
+//        //avg_stroke=null; // これをすると失敗する
+//      }
+//    }
+//  }
 
-  und_stroke = null;
-}
+//  und_stroke = null;
+//}
 
-/*
-void canvasRedraw() {
-  Canvas.beginDraw();
-  Canvas.background(255);
-  PImage tmp = loadImage("tmp"+(count-2)+".png");
-  Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
-  Canvas.endDraw();
-}
-*/
 
-void canvasTmpSave() {
-  if (pushedUndo==false) {
-    Canvas.save("tmp/tmp"+count+".png");
-    println("count is "+count);
-  }
-  //pushedUndo=false;
-  count++;
-}
+//void canvasTmpSave() {
+//  if (pushedUndo==false) {
+//    Canvas.save("tmp/tmp"+count+".png");
+//    println("count is "+count);
+//  }
+//  count++;
+//}

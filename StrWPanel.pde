@@ -1,5 +1,5 @@
 
-class StrokeWeightPanel {
+class g_iStrokeWeightPanel {
   float posX, posY;
   int max, min;
   float size;
@@ -7,7 +7,7 @@ class StrokeWeightPanel {
   boolean locked;
   color col = color(0, 0, 0);
 
-  StrokeWeightPanel (float _px, float _py, int _mx, int _mi, float _s) {
+  g_iStrokeWeightPanel (float _px, float _py, int _mx, int _mi, float _s) {
     posX = _px;
     posY = _py;
     max = _mx;
