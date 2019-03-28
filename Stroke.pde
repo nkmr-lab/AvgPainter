@@ -194,12 +194,14 @@ class Stroke {
       doFourier();
     }
 
+    pushStyle();
     smooth( );
     stroke( col );
     strokeWeight( weight );
     for (int num = 0; num <= m_FourierSeriesPt.length/2; num++) {
       line( int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y), int(m_FourierSeriesPt[num+1].x), int(m_FourierSeriesPt[num+1].y) );
     }
+    popStyle();
   }
 
   boolean isInside(int _x, int _y) {
