@@ -35,12 +35,12 @@ void setup() {
 }
 
 void draw() {
-  if( g_avgStroke != null && g_avgStroke.isInside( mouseX, mouseY ) ){
+  if ( g_avgStroke != null && g_avgStroke.isInside( mouseX, mouseY ) ) {
     cursor(HAND);
   } else {
     cursor(ARROW);
   }
-  
+
   if ( g_bStroking ) {
     strokeWeight( 10 );
     stroke( 0 );
@@ -94,6 +94,7 @@ void eventListener() {
   } else {
     g_bStroking = true;
     g_mouseStroke = new PointF[0];
+    g_avgStroke = null;
   }
 
 
