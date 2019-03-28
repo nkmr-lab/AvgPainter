@@ -1,4 +1,6 @@
 
+/* なんかバグってて黒色が入らねえ! */
+
 class ColorPanel {
 
   color [] colors;

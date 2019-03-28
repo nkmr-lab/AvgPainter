@@ -14,11 +14,10 @@ PGraphics AvgCanvas;
 // ペンの設定 初期設定 太さ:1px, 色:黒Str
 String strokeType = "pen";
 int strokeW = 1;
-color strokeC = color( 0, 0, 0 );
-
-int selectColor = 11;
 
 // カラーエディタの設定
+color strokeC = color( 0, 0, 0 );
+int selectColor = 11;
 
 // フォント
 PFont font;
@@ -30,7 +29,6 @@ PImage lod_icon;
 PImage und_icon;
 PImage stw_icon;
 
-ADRadio radioButton;
 StrokeWeightPanel strWPanel;
 ColorPanel colPanel;
 
@@ -452,8 +450,8 @@ void mouseReleased() {
 
 void mousePressed() {
   avg_strokePressed = false;
-  colPanel.listenSelect();
   
+  colPanel.listenSelect();
   strokeC = colPanel.getNowColor();
 
   println("mouseX:"+mouseX+", mouseY:"+mouseY);
@@ -599,19 +597,6 @@ void mousePressed() {
   showButtons();
 }
 
-
-// ペンタブの時に使用
-void keyPressed() {
-  if (key == 'A' || key == 'a') {  // Aキーに反応
-    println("push A");
-    saveCount++;
-    save(saveCount+".png");
-  } else if (key == 'B' || key == 'b') {  // Bキーに反応
-    println("push B");
-
-    //radioButton.setValue(1);
-  }
-}
 
 //戻るを押したとき
 void undo() {

@@ -1,4 +1,4 @@
-/*いじらない*/
+
 class Spline {
   Spline() {
     ;

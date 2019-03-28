@@ -1,4 +1,4 @@
-/*いじらない*/
+
 class GraphAnalysis {
   int [][] m_distance; // 距離配列
   int [][] m_distanceRev; // 反転バージョンの距離配列

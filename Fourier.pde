@@ -1,4 +1,4 @@
-/*いじらない*/
+
 class Fourier {
   float [] m_aX;   //xについてFourierSeriesの実部
   float [] m_bX;   //xについてFourierSeriesの虚部

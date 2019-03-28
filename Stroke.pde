@@ -1,4 +1,4 @@
-/*描写した線の情報*/
+
 class Stroke {
   PointF [] m_orgPt;
   PointF [] m_SplinePt;
