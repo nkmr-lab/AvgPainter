@@ -704,12 +704,6 @@ void undo() {
     PImage tmp = loadImage("tmp0.png");
     Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
 
-    /*
-    //デバッグ用
-     debugFileNum++;
-     stringSaveFile(debugFileNum,"undoNo");
-     */
-
     // pre_stroke_list内のストロークを全部描画する
     for (int i=0; i<pre_stroke_list.size (); i++) {
       pre_stroke=(Stroke)pre_stroke_list.get(i);
@@ -731,52 +725,3 @@ void undo() {
     pushedUndo=true;
   }
 }
-
-/*
-// デバッグ用 ストリング情報を全て洗いざらしにする
- void stringSaveFile(int n,String hoge){
- Canvas.beginDraw();
- Canvas.background(255);
- Canvas.endDraw();
- image(Canvas,0,100);
- colorMode(HSB, 12, 100, 100);
- Canvas.endDraw();
- 
- for(int i=0;i<pre_stroke_list.size();i++){
- 
- debug_stroke=new Stroke((Stroke)pre_stroke_list.get(i));
- debug_stroke.displayStroke();
- 
- Canvas.save(hoge+n+"/turn"+i+".png");
- }
- colorMode(RGB, 255, 255, 255);
- image(Canvas,0,100);
- } 
- */
-
-/*
-// デバッグ用 平均化されたときにストロークを保存する
- void averageSaveFile(int n,Stroke a_stroke,Stroke b_stroke){
- Canvas.beginDraw();
- Canvas.background(255);
- 
- a_stroke.displayStroke();
- b_stroke.displayStroke();
- Canvas.save("averagedStrokes"+n+".png");
- Canvas.background(255);
- image(Canvas,0,100);
- if(und_stroke!=null){
- und_stroke.displayStroke();
- }
- for (int i=0; i<pre_stroke_list.size (); i++) {
- pre_stroke=(Stroke)pre_stroke_list.get(i);
- ((Stroke)pre_stroke_list.get(i)).displayStroke();
- }
- 
- for (int i=0;i<avg_stroke_list.size();i++){
- Stroke c_stroke=(Stroke)avg_stroke_list.get(i);
- c_stroke.setColor(color(255, 0, 0));
- c_stroke.displayStroke();
- }
- }
- */
