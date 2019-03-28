@@ -468,4 +468,3 @@ float getDistanceFromFourierCos( Fourier _first, PointF _firstLeftTop, PointF _f
   // 値が大きいので1/1000する
   //  return dist/1000.0;
 }
-

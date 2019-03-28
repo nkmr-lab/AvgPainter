@@ -140,4 +140,3 @@ class Spline {
     return retValue;
   }
 }
-

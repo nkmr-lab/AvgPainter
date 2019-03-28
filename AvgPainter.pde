@@ -4,9 +4,9 @@
 
 // キャンバスの設定
 PGraphics Canvas;
-public int CanvasSizeX;
-public int CanvasSizeY;
-public int MenuAreaSize;
+public int CanvasSizeX = 600;
+public int CanvasSizeY = 600;
+public int MenuAreaSize = 100;
 
 // 仮キャンバス(最後のストロークを表示するキャンバス)
 PGraphics AvgCanvas;
@@ -29,8 +29,6 @@ PImage sav_icon;
 PImage lod_icon;
 PImage und_icon;
 PImage stw_icon;
-
-
 
 ADRadio radioButton;
 StrokeWeightPanel strWPanel;
@@ -128,46 +126,13 @@ boolean MenuPressed = false;
 
 int saveCount = 0;
 
+void settings() {
+  size(  CanvasSizeX, CanvasSizeY + MenuAreaSize );
+}
+
 void setup() {
-  // processing3用
-  //surface.setTitle("Average Painter v5.0");
 
-  // processing2用
-  frame.setTitle("Average Painter v9.0");
-
-  // フルスクリーンかどうかでウィンドウサイズを変更
-  //processing3用
-  /*
-  if(skechFullScreen()){
-   MenuAreaSize=100;
-   CanvasSizeX=displayWidth;
-   CanvasSizeY=displayHeight-MenuAreaSize;
-   surface.setSize( displayWidth, displayHeight );
-   }else{
-   MenuAreaSize=100;
-   CanvasSizeX=800;
-   CanvasSizeY=800;
-   surface.setSize( CanvasSizeX, CanvasSizeY + MenuAreaSize );
-   }
-   */
-
-  if (frame.isUndecorated()) {
-    MenuAreaSize=100;
-    CanvasSizeX=displayWidth;
-    CanvasSizeY=displayHeight-MenuAreaSize;
-    //processing2
-    size( displayWidth, displayHeight );
-    //processing3
-    //surface.setSize( displayWidth, displayHeight );
-  } else {
-    MenuAreaSize=100;
-    CanvasSizeX=600;
-    CanvasSizeY=600;
-    //processing2
-    size(  CanvasSizeX, CanvasSizeY + MenuAreaSize );
-    //processing3
-    //surface.setSize(  CanvasSizeX,  CanvasSizeY + MenuAreaSize );
-  }
+  pixelDensity(displayDensity());
 
   font = createFont("Meiriyo", 20, true);
   textFont(font);
@@ -381,7 +346,6 @@ void showButtons() {
   image(lod_icon, 5+60*2, 25);
   image(und_icon, 5+60*3, 25);
   image(stw_icon, 5+60*4, 25);
-  
 }
 
 
@@ -490,9 +454,9 @@ void saveStrokes() {
     Canvas.background(255);
     PImage tmp;
     if (count-1<1) {
-      tmp = loadImage("tmp0.png");
+      tmp = loadImage("tmp/tmp0.png");
     } else {
-      tmp = loadImage("tmp"+(count-1)+".png");
+      tmp = loadImage("tmp/tmp"+(count-1)+".png");
     }
 
     Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
@@ -549,7 +513,7 @@ void mousePressed() {
         }
 
         // 変更を踏まえてキャンバスに書き直す
-        PImage tmp=loadImage("tmp0.png");
+        PImage tmp=loadImage("tmp/tmp0.png");
         //undo後の平均
         if (averageType==1) {
           Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
@@ -565,7 +529,7 @@ void mousePressed() {
           pre_stroke_list.remove(count);
           pre_stroke_list.remove(((Stroke)avg_stroke_list.get(i)).avgListNum);
           println("second remove number is "+((Stroke)avg_stroke_list.get(i)).avgListNum);
-          tmp = loadImage("tmp0.png");
+          tmp = loadImage("tmp/tmp0.png");
           Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
           if (pre_stroke_list.size()>0) {
             for (int j=0; j<pre_stroke_list.size (); j++) {
@@ -602,7 +566,7 @@ void mousePressed() {
     println("average stroke not clicked…");
     Canvas.beginDraw();
     Canvas.background(255);
-    PImage tmp=loadImage("tmp0.png");
+    PImage tmp=loadImage("tmp/tmp0.png");
     Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
     Canvas.endDraw();
 
@@ -666,9 +630,7 @@ void mousePressed() {
     println("push 戻るボタン");
     paint_count=0;
     undo();
-  } 
-  
-  else if (mouseY < MenuAreaSize ) {
+  } else if (mouseY < MenuAreaSize ) {
     MenuPressed = true;
   }
 
@@ -701,7 +663,7 @@ void undo() {
     println("now count is "+count);
     Canvas.beginDraw();
     Canvas.background(255);
-    PImage tmp = loadImage("tmp0.png");
+    PImage tmp = loadImage("tmp/tmp0.png");
     Canvas.image(tmp, 0, 0, Canvas.width, Canvas.height);
 
     // pre_stroke_list内のストロークを全部描画する

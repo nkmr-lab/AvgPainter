@@ -257,4 +257,3 @@ class Stroke {
     return flag;
   }
 }
-
