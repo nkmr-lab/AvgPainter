@@ -30,16 +30,15 @@ int g_canvasWidth = 500;
 int g_canvasHeight = 500;
 int g_sideMenuWidth = 300;
 
+// ストローク関連
+int g_stWeight;
+int g_stColorR, g_stColorG, g_stColorB;
 
 boolean g_bStroking = false;
 PointF [] g_mouseStroke;
 CharStroke g_curCharStroke;
 Stroke g_avgStroke;
 int g_sameStIndex = -1;
-
-int g_stWeight;
-int g_stColorR, g_stColorG, g_stColorB;
-
 
 void settings() {
   size( g_canvasWidth + g_sideMenuWidth, g_canvasHeight );
@@ -49,58 +48,8 @@ void setup() {
   pixelDensity(2);
   background( 255 );
   g_curCharStroke = new CharStroke();
-
-  slider = new ControlP5(this);
-  slider.addSlider("g_stWeight")
-    .setLabel("Stroke Weight")
-    .setRange(0, 50)//0~100の間
-    .setValue(5)//初期値
-    .setPosition(50, 150)//位置
-    .setSize(100, 20);//大きさ
-
-  slider.addSlider("g_stColorR")
-    .setLabel("Color-R")
-    .setRange(0, 255)//0~100の間
-    .setValue(0)//初期値
-    .setPosition(50, 200)//位置
-    .setSize(100, 20);//大きさ
-
-  slider.addSlider("g_stColorG")
-    .setLabel("Color-G")
-    .setRange(0, 255)//0~100の間
-    .setValue(0)//初期値
-    .setPosition(50, 250)//位置
-    .setSize(100, 20);//大きさ
-
-
-  slider.addSlider("g_stColorB")
-    .setLabel("Color-B")
-    .setRange(0, 255)//0~100の間
-    .setValue(0)//初期値
-    .setPosition(50, 300)//位置
-    .setSize(100, 20);//大きさ
-
-  button = new ControlP5(this);
-
-  button.addButton("tappedLoad")
-    .setLabel("load")//テキスト
-    .setPosition(25, 350)
-    .setSize(100, 40);
-
-  button.addButton("tappedSave")
-    .setLabel("save")//テキスト
-    .setPosition(155, 350)
-    .setSize(100, 40);
-
-  button.addButton("tappedUndo")
-    .setLabel("undo")//テキスト
-    .setPosition(25, 420)
-    .setSize(100, 40);
-
-  button.addButton("tappedReset")
-    .setLabel("reset")//テキスト
-    .setPosition(155, 420)
-    .setSize(100, 40);
+  
+  configCtrlP5();
 }
 
 void draw() {

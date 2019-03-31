@@ -125,3 +125,58 @@ void refreshCanvas() {
   rect(g_sideMenuWidth, 0, g_canvasWidth, g_canvasHeight);
   popStyle();
 }
+
+// ControlP5関連のセットアップ
+void configCtrlP5() {
+  
+  slider = new ControlP5(this);
+  slider.addSlider("g_stWeight")
+    .setLabel("Stroke Weight")
+    .setRange(0, 50)//0~100の間
+    .setValue(5)//初期値
+    .setPosition(50, 150)//位置
+    .setSize(100, 20);//大きさ
+
+  slider.addSlider("g_stColorR")
+    .setLabel("Color-R")
+    .setRange(0, 255)//0~100の間
+    .setValue(0)//初期値
+    .setPosition(50, 200)//位置
+    .setSize(100, 20);//大きさ
+
+  slider.addSlider("g_stColorG")
+    .setLabel("Color-G")
+    .setRange(0, 255)//0~100の間
+    .setValue(0)//初期値
+    .setPosition(50, 250)//位置
+    .setSize(100, 20);//大きさ
+
+  slider.addSlider("g_stColorB")
+    .setLabel("Color-B")
+    .setRange(0, 255)//0~100の間
+    .setValue(0)//初期値
+    .setPosition(50, 300)//位置
+    .setSize(100, 20);//大きさ
+
+  button = new ControlP5(this);
+
+  button.addButton("tappedLoad")
+    .setLabel("load")//テキスト
+    .setPosition(25, 350)
+    .setSize(100, 40);
+
+  button.addButton("tappedSave")
+    .setLabel("save")//テキスト
+    .setPosition(155, 350)
+    .setSize(100, 40);
+
+  button.addButton("tappedUndo")
+    .setLabel("undo")//テキスト
+    .setPosition(25, 420)
+    .setSize(100, 40);
+
+  button.addButton("tappedReset")
+    .setLabel("reset")//テキスト
+    .setPosition(155, 420)
+    .setSize(100, 40);
+}
