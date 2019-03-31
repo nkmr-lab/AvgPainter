@@ -20,10 +20,25 @@ class Stroke {
   }
 
   Stroke(Stroke _st) {
-    m_orgPt = _st.m_orgPt;
-    m_SplinePt = _st.m_SplinePt;
+    m_orgPt = new PointF[ _st.m_orgPt.length ];
+    for(int i=0; i<_st.m_orgPt.length; i++){
+      m_orgPt[i] = _st.m_orgPt[i];
+    }
+    
+    m_SplinePt = new PointF[ _st.m_SplinePt.length ];
+    for(int i=0; i<_st.m_SplinePt.length; i++){
+      m_SplinePt[i] = _st.m_SplinePt[i];
+    }
+    
     m_Fourier = new Fourier(_st.m_Fourier);
-    m_FourierSeriesPt = _st.m_FourierSeriesPt;
+    
+    
+    m_FourierSeriesPt = new PointF[ _st.m_FourierSeriesPt.length ];
+    for(int i=0; i<_st.m_FourierSeriesPt.length; i++){
+      m_FourierSeriesPt[i] = _st.m_FourierSeriesPt[i];
+    }
+    
+    
     m_bFourier = _st.m_bFourier;
     m_Color = _st.m_Color;
     m_Weight = _st.m_Weight;
@@ -129,6 +144,24 @@ class Stroke {
     println( "appropriate degree", m_iAppropriateDegreeOfFourier );
     m_FourierSeriesPt = m_Fourier.GetFourierSeries( m_iAppropriateDegreeOfFourier, m_SplinePt.length/2, g_fThresholdOfCoefficient );
   }
+  
+  Stroke getAverageByStroke( Stroke _addStroke ) {
+    
+    Stroke rtnStroke = new Stroke( this );
+
+    for ( int k=0; k<=g_iMaxDegreeOfFourier; k++ ) {
+      rtnStroke.m_Fourier.m_aX[k] = (_addStroke.m_Fourier.m_aX[k] + rtnStroke.m_Fourier.m_aX[k] ) / 2; 
+      rtnStroke.m_Fourier.m_aY[k] = (_addStroke.m_Fourier.m_aY[k] + rtnStroke.m_Fourier.m_aY[k] ) / 2; 
+      rtnStroke.m_Fourier.m_bX[k] = (_addStroke.m_Fourier.m_bX[k] + rtnStroke.m_Fourier.m_bX[k] ) / 2; 
+      rtnStroke.m_Fourier.m_bY[k] = (_addStroke.m_Fourier.m_bY[k] + rtnStroke.m_Fourier.m_bY[k] ) / 2;
+    }
+
+    rtnStroke.m_iAppropriateDegreeOfFourier = rtnStroke.m_Fourier.GetAppropriateDegree( g_iMaxDegreeOfFourier, rtnStroke.m_SplinePt.length, g_fThresholdOfCoefficient );
+    println( "appropriate degree", rtnStroke.m_iAppropriateDegreeOfFourier );
+    rtnStroke.m_FourierSeriesPt = rtnStroke.m_Fourier.GetFourierSeries( rtnStroke.m_iAppropriateDegreeOfFourier, rtnStroke.m_SplinePt.length/2, g_fThresholdOfCoefficient );
+  
+    return rtnStroke;
+}
 
   void displayStrokeByFourier(int _iMultiple) {
     if ( m_bFourier == false ) {

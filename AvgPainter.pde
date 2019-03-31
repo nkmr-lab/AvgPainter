@@ -48,7 +48,6 @@ void setup() {
   pixelDensity(2);
   background( 255 );
   g_curCharStroke = new CharStroke();
-  
   configCtrlP5();
 }
 
@@ -71,6 +70,7 @@ void tappedSave() {
 }
 
 void tappedLoad() {
+  openFile();
 }
 
 void tappedUndo() {
@@ -100,11 +100,9 @@ void mouseReleased() {
       int index = g_curCharStroke.isSameStroke(addSt);
       if ( index != -1 ) {
         Stroke st = g_curCharStroke.get(index);
-        st.setWeight( g_stWeight );
-        st.setColor(color(255, 0, 0));
-        st.doAverageByStroke( addSt );
-        st.displayStrokeByFourier(g_iMultiple);
-        g_avgStroke = st;
+        g_avgStroke = st.getAverageByStroke( addSt );
+        g_avgStroke.setColor( color(255,0,0) );
+        g_avgStroke.displayStrokeByFourier(g_iMultiple);
         g_sameStIndex = index;
       }
 
@@ -122,7 +120,7 @@ void eventListener() {
   }
 
   if ( g_avgStroke != null && g_avgStroke.isInside( mouseX, mouseY )) {
-    println("くりっくされたよ");
+    println("平均線がクリックされたよ");
     g_curCharStroke.removeLast();
     g_curCharStroke.remove(g_sameStIndex);
     g_avgStroke.setColor( color(g_stColorR, g_stColorG, g_stColorB) );
@@ -130,6 +128,13 @@ void eventListener() {
     refreshCanvas();
     g_curCharStroke.displayStroke();
     g_avgStroke = null;
+  } else if ( g_avgStroke != null ) { 
+    refreshCanvas();
+    g_curCharStroke.displayStroke();
+    g_avgStroke = null;
+    
+    g_bStroking = true;
+    g_mouseStroke = new PointF[0];
   } else {
     g_bStroking = true;
     g_mouseStroke = new PointF[0];

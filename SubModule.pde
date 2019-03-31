@@ -2,13 +2,20 @@
 class PointF {
   float x;
   float y;
+  
   PointF() { 
     x = 0.0; 
     y = 0.0;
   }
+  
   PointF( float _x, float _y ) { 
     x = _x; 
     y = _y;
+  }
+  
+  PointF( PointF _pt ){
+    x = _pt.x;
+    y = _pt.y;
   }
 }
 
@@ -128,7 +135,7 @@ void refreshCanvas() {
 
 // ControlP5関連のセットアップ
 void configCtrlP5() {
-  
+
   slider = new ControlP5(this);
   slider.addSlider("g_stWeight")
     .setLabel("Stroke Weight")
@@ -179,4 +186,29 @@ void configCtrlP5() {
     .setLabel("reset")//テキスト
     .setPosition(155, 420)
     .setSize(100, 40);
+}
+
+void openFile() {
+  selectInput("Select a file to process:", "fileSelected");
+}
+
+void fileSelected(File selection) {
+  if (selection == null) {
+    println("Window was closed or the user hit cancel.");
+  } else {
+    println("User selected " + selection.getAbsolutePath());
+
+    // 拡張子をチェック txtだったらストローク読み込み, pngだったら画像読み込み
+    String filePath = selection.getAbsolutePath();
+
+    if (filePath.endsWith("png")) {
+      println("っぺ");
+      PImage img = loadImage(filePath);
+      image(img, g_sideMenuWidth, 0, g_canvasWidth, g_canvasHeight);
+    }
+    if (filePath.endsWith("json")) {
+      println("ストローク読み込み");
+      String [] lines = loadStrings(selection.getAbsolutePath());
+    }
+  }
 }
