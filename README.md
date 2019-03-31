@@ -3,23 +3,22 @@
 
 ![デモ動画](https://i.gyazo.com/9749e788ad319ce71ce7c9568de24fbb.gif "デモ動画")
 
-# ==================== Emojis ====================
-# 🎉  :tada: 初めてのコミット（Initial Commit）
-# 🔖  :bookmark: バージョンタグ（Version Tag）
-# ✨  :sparkles: 新機能（New Feature）
-# 🐛  :bug: バグ修正（Bugfix）
-# ♻️  :recycle: リファクタリング(Refactoring)
-# 📚  :books: ドキュメント（Documentation）
-# 🎨  :art: デザインUI/UX(Accessibility)
-# 🐎  :horse: パフォーマンス（Performance）
-# 🔧  :wrench: ツール（Tooling）
-# 🚨  :rotating_light: テスト（Tests）
-# 💩  :hankey: 非推奨追加（Deprecation）
-# 🗑️  :wastebasket: 削除（Removal）
-# 🚧  :construction: WIP(Work In Progress)
 
+## Suggested Emojis
 
-# ==================== Format ====================
-# :emoji: Subject
-#
-# Commit body...
+| Emoji | Raw Emoji Code | Description |
+|:---:|:---:|---|
+| 🎨 | `:art:` | when improving the **format**/structure of the code |
+| 📝 | `:pencil:` | when performing minor changes/fixing the code or language |
+| 🐎 | `:racehorse:` | when improving performance |
+| 🐛 | `:bug:` | when fixing a bug |
+| ✅ | `:white_check_mark:` | when adding tests |
+| ➕ | `:heavy_plus_sign:` | when adding feature |
+| ➖ | `:heavy_minus_sign:` | when removing feature |
+| 💄 | `:lipstick:` | when improving UI/Cosmetic |
+| 🔥 | `:fire:` | when removing code or files |
+| ⬆ | `:arrow_up:` |  when upgrading dependencies |
+| 👕 | `:shirt:` | when removing linter warnings |
+| 📚 | `:books:` | when writing docs |
+| 💎 | `:gem:` | New Release |
+| 🔖 | `:bookmark:` | Version Tags |
