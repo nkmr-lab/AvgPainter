@@ -21,24 +21,23 @@ class Stroke {
 
   Stroke(Stroke _st) {
     m_orgPt = new PointF[ _st.m_orgPt.length ];
-    for(int i=0; i<_st.m_orgPt.length; i++){
-      m_orgPt[i] = _st.m_orgPt[i];
+    for (int i=0; i<_st.m_orgPt.length; i++) {
+      m_orgPt[i] = new PointF( _st.m_orgPt[i] );
     }
-    
+
     m_SplinePt = new PointF[ _st.m_SplinePt.length ];
-    for(int i=0; i<_st.m_SplinePt.length; i++){
-      m_SplinePt[i] = _st.m_SplinePt[i];
+    for (int i=0; i<_st.m_SplinePt.length; i++) {
+      m_SplinePt[i] = new PointF( _st.m_SplinePt[i] );
     }
-    
+
     m_Fourier = new Fourier(_st.m_Fourier);
-    
-    
+
     m_FourierSeriesPt = new PointF[ _st.m_FourierSeriesPt.length ];
-    for(int i=0; i<_st.m_FourierSeriesPt.length; i++){
-      m_FourierSeriesPt[i] = _st.m_FourierSeriesPt[i];
+    for (int i=0; i<_st.m_FourierSeriesPt.length; i++) {
+      m_FourierSeriesPt[i] = new PointF( _st.m_FourierSeriesPt[i] );
     }
-    
-    
+
+
     m_bFourier = _st.m_bFourier;
     m_Color = _st.m_Color;
     m_Weight = _st.m_Weight;
@@ -67,6 +66,36 @@ class Stroke {
     m_orgPt = new PointF [_iSize];
     m_SplinePt = new PointF [_iSize];
     m_Fourier = new Fourier( min(_iSize/2, g_iMaxDegreeOfFourier) );
+  }
+
+  void reverse() {
+    PointF [] tmp_orgPt = new PointF[ m_orgPt.length ];
+
+    for (int i=0; i<tmp_orgPt.length; i++) {
+      tmp_orgPt[i] = new PointF( m_orgPt[i] );
+    }
+
+    PointF [] tmp_SplinePt = new PointF[ m_SplinePt.length ];
+    for (int i=0; i<tmp_SplinePt.length; i++) {
+      tmp_SplinePt[i] = new PointF( m_SplinePt[i] );
+    }
+
+    PointF [] tmp_FourierSeriesPt = new PointF[ m_FourierSeriesPt.length ];
+    for (int i=0; i<tmp_FourierSeriesPt.length; i++) {
+      tmp_FourierSeriesPt[i] = new PointF( m_FourierSeriesPt[i] );
+    }
+
+    for (int i=0; i<m_orgPt.length; i++) {
+      m_orgPt[i] = new PointF( tmp_orgPt[m_orgPt.length-1-i] );
+    }
+
+    for (int i=0; i<m_SplinePt.length; i++) {
+      m_SplinePt[i] = new PointF( tmp_SplinePt[m_SplinePt.length-1-i] );
+    }
+
+    for (int i=0; i<m_FourierSeriesPt.length; i++) {
+      m_FourierSeriesPt[i] = new PointF( tmp_FourierSeriesPt[m_FourierSeriesPt.length-1-i] );
+    }
   }
 
   PointF getGravityCenter() {
@@ -99,8 +128,8 @@ class Stroke {
     }
   }
 
-  void doSpline( int _iMultiple ){
-   
+  void doSpline( int _iMultiple ) {
+
     // 0 ～ PI で t を作成する
     float [] _arrayT = new float [m_orgPt.length];
     for ( int j=0; j<m_orgPt.length; j++ ) {
@@ -131,6 +160,26 @@ class Stroke {
     m_bFourier = true;
   }
   
+  // fourierしてあってもしてなくてももう一度フーリエする
+  void doForceFourier() {
+
+    // ストロークを折り返して2倍にする
+    // フーリエ級数展開では始点終点が同じであることが理想であるため
+    for ( int i=0; i<m_SplinePt.length/2+1; i++ ) {
+      float temp = m_SplinePt[i].x; 
+      m_SplinePt[i].x = m_SplinePt[m_SplinePt.length-i-1].x;
+      m_SplinePt[m_SplinePt.length-i-1].x = temp;  
+      temp = m_SplinePt[i].y; 
+      m_SplinePt[i].y = m_SplinePt[m_SplinePt.length-i-1].y;
+      m_SplinePt[m_SplinePt.length-i-1].y = temp;
+    } 
+    m_SplinePt = DoubleBack( m_SplinePt );
+    m_Fourier.ExpansionFourierSeries( m_SplinePt, g_iMaxDegreeOfFourier );
+    int iDegree = m_Fourier.GetAppropriateDegree( g_iMaxDegreeOfFourier, m_SplinePt.length, g_fThresholdOfCoefficient );
+    m_FourierSeriesPt = m_Fourier.GetFourierSeries( iDegree, m_SplinePt.length/2, g_fThresholdOfCoefficient );
+    m_bFourier = true;
+  }
+
   void doAverageByStroke( Stroke _addStroke ) {
 
     for ( int k=0; k<=g_iMaxDegreeOfFourier; k++ ) {
@@ -144,9 +193,9 @@ class Stroke {
     println( "appropriate degree", m_iAppropriateDegreeOfFourier );
     m_FourierSeriesPt = m_Fourier.GetFourierSeries( m_iAppropriateDegreeOfFourier, m_SplinePt.length/2, g_fThresholdOfCoefficient );
   }
-  
+
   Stroke getAverageByStroke( Stroke _addStroke ) {
-    
+
     Stroke rtnStroke = new Stroke( this );
 
     for ( int k=0; k<=g_iMaxDegreeOfFourier; k++ ) {
@@ -159,9 +208,9 @@ class Stroke {
     rtnStroke.m_iAppropriateDegreeOfFourier = rtnStroke.m_Fourier.GetAppropriateDegree( g_iMaxDegreeOfFourier, rtnStroke.m_SplinePt.length, g_fThresholdOfCoefficient );
     println( "appropriate degree", rtnStroke.m_iAppropriateDegreeOfFourier );
     rtnStroke.m_FourierSeriesPt = rtnStroke.m_Fourier.GetFourierSeries( rtnStroke.m_iAppropriateDegreeOfFourier, rtnStroke.m_SplinePt.length/2, g_fThresholdOfCoefficient );
-  
+
     return rtnStroke;
-}
+  }
 
   void displayStrokeByFourier(int _iMultiple) {
     if ( m_bFourier == false ) {

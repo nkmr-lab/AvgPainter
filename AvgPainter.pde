@@ -101,7 +101,20 @@ void mouseReleased() {
       if ( index != -1 ) {
         Stroke st = g_curCharStroke.get(index);
         g_avgStroke = st.getAverageByStroke( addSt );
-        g_avgStroke.setColor( color(255,0,0) );
+
+        // 平均線と元の線がだいたい一緒かを確認する( 違った場合は反転処理 )
+        Boolean avgIsSame = isDrawingSameStroke( addSt, g_avgStroke );
+
+        if ( !avgIsSame ) {
+          println("反転処理!!!");
+          addSt.reverse();
+          addSt.doForceFourier();
+          
+          // ⚠ なぜかここの描画がちょっとだけおかしい
+          g_avgStroke = st.getAverageByStroke( addSt );
+        }
+
+        g_avgStroke.setColor( color(255, 0, 0) );
         g_avgStroke.displayStrokeByFourier(g_iMultiple);
         g_sameStIndex = index;
       }
@@ -132,7 +145,7 @@ void eventListener() {
     refreshCanvas();
     g_curCharStroke.displayStroke();
     g_avgStroke = null;
-    
+
     g_bStroking = true;
     g_mouseStroke = new PointF[0];
   } else {

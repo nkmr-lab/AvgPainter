@@ -85,8 +85,6 @@ boolean isDrawingSameStroke( Stroke _st1, Stroke _st2 ) {
   float R1 = max( -leftTop1.x+rightBottom1.x, -leftTop1.y+rightBottom1.y ) / 2;
   float R2 = max( -leftTop2.x+rightBottom2.x, -leftTop2.y+rightBottom2.y ) / 2;
 
-
-
   float accept_diff_radius = 0.5;
   if ( R2 >= R1 * (1.0 - accept_diff_radius) && R2 <= R1 * (1.0 + accept_diff_radius) ) {
     println( "Acceptable difference of radius", R1, R2 );
@@ -102,8 +100,7 @@ boolean isDrawingSameStroke( Stroke _st1, Stroke _st2 ) {
     println( "difference: dist( c1, c2 ) < (R1 + R2) / 2" );
     return false;
   }
-
-
+  
   println( "Maybe same stroke!" );
   return true;
 }
