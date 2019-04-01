@@ -66,6 +66,7 @@ void draw() {
 }
 
 void tappedSave() {
+  g_curCharStroke.saveStrokes("save/" + getCurrentTime() + ".json");
   saveFrame( "save/" + getCurrentTime() + ".png" );
 }
 

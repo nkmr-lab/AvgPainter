@@ -6,8 +6,8 @@ class Stroke {
   Fourier m_Fourier;
   boolean m_bFourier;
   int m_iAppropriateDegreeOfFourier;
-  color m_Color;
-  int m_Weight;
+  color m_Color = color(0);
+  int m_Weight = 5;
 
   Stroke( PointF [] _orgPt, color _col, int _weight, String _type)
   {
@@ -18,6 +18,14 @@ class Stroke {
     m_Color = _col;
     m_Weight = _weight;
   }
+  
+  Stroke(PointF [] _arrayPt){
+    m_orgPt = new PointF[ _arrayPt.length ];
+    for (int i=0; i<m_orgPt.length; i++) {
+      m_orgPt[i] = new PointF( _arrayPt[i] );
+    }
+  }
+    
 
   Stroke(Stroke _st) {
     m_orgPt = new PointF[ _st.m_orgPt.length ];
@@ -224,7 +232,8 @@ class Stroke {
     strokeWeight( m_Weight );
     for (int num = 0; num <= m_FourierSeriesPt.length/2; num++) {
       line( int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y), int(m_FourierSeriesPt[num+1].x), int(m_FourierSeriesPt[num+1].y) );
-    }
+      println(  int(m_FourierSeriesPt[num].x), int(m_FourierSeriesPt[num].y), int(m_FourierSeriesPt[num+1].x), int(m_FourierSeriesPt[num+1].y)  );
+  }
     popStyle();
   }
 

@@ -205,7 +205,9 @@ void fileSelected(File selection) {
     }
     if (filePath.endsWith("json")) {
       println("ストローク読み込み");
-      String [] lines = loadStrings(selection.getAbsolutePath());
+      g_curCharStroke = new CharStroke();
+      g_curCharStroke.loadStrokesFromJSON(selection.getAbsolutePath());
+      g_curCharStroke.displayStroke();
     }
   }
 }

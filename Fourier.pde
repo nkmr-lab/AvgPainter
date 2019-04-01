@@ -21,7 +21,13 @@ class Fourier {
     m_bX = _fourier.m_bX;
     m_aY = _fourier.m_aY;
     m_bY = _fourier.m_bY;
-    
+  }
+  
+   Fourier( float [] _aX, float [] _bX, float [] _aY, float [] _bY ){
+    m_aX = _aX;
+    m_bX = _bX;
+    m_aY = _aY;
+    m_bY = _bY;
   }
 
   // 初期化
